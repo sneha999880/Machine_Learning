@@ -1,0 +1,35 @@
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
+
+data={
+    "email":["win a free lottery now",
+            "important meeting at 5 PM",
+            "congratulation! you won a prize",
+            "please review the attached report",
+            "claim your free git today",
+            "your invoice is attached"],
+    "label":[1,0,1,0,1,0]
+}
+
+df=pd.DataFrame(data)
+vectorizer = CountVectorizer()
+x=vectorizer.fit_transform(df["email"])
+y=df["label"]
+
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=42)
+svm_model = SVC(kernel="linear")
+svm_model.fit(x_train,y_train)
+
+y_pred=svm_model.predict(x_test)
+accuracy=accuracy_score(y_test,y_pred)
+print(f"Model Accuracy:{accuracy*100:2f}%")
+#test with a new email
+new_email=["Your offer letter"]
+new_email_vectorized=vectorizer.transform(new_email)
+prediction=svm_model.predict(new_email_vectorized)
+print("Spam"if prediction[0]==1 else"Not Spam")
