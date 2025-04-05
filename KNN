@@ -1,0 +1,21 @@
+from sklearn.neighbors import KNeighborsClassifier
+import numpy as np
+
+# Training data
+x_train = np.array([[150, 7], [160, 8], [140, 6], [300, 12], [310, 10], [290, 11]])
+y_train = np.array(["Apple", "Apple", "Apple", "Orange", "Orange", "Orange"])
+
+# Test data
+x_test = np.array([[155, 7.5]])
+
+# Initialize the classifier
+knn = KNeighborsClassifier(n_neighbors=3)
+
+# Fit the model
+knn.fit(x_train, y_train)
+
+# Make a prediction
+prediction = knn.predict(x_test)
+
+# Output the prediction
+print("Predicted Fruit:", prediction[0])
