@@ -1,0 +1,42 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import plot_tree
+from sklearn.model_selection import train_test_split
+
+# Corrected data dictionary
+data = {
+    "Animal": ["Dog", "Cat", "Lizard", "Snake"],
+    "Weight(Kg)": [10, 5, 1, 3],  # fixed the extra 2 entry here
+    "Height(Cm)": [50, 35, 15, 250],
+    "Class": [1, 1, 0, 1]
+}
+df = pd.DataFrame(data)
+
+# Define feature matrix and target vector
+x = df[["Weight(Kg)", "Height(Cm)"]]
+y = df["Class"]
+
+# Initialize and train the RandomForest model
+rf = RandomForestClassifier(n_estimators=3, random_state=42)
+rf.fit(x, y)
+
+# Plot the individual decision trees
+plt.figure(figsize=(15, 5))
+for i in range(3):
+    plt.subplot(1, 3, i+1)
+    plot_tree(rf.estimators_[i], feature_names=["Weight(Kg)", "Height(Cm)"], filled=True, rounded=True)
+    plt.title(f"Tree {i+1}")
+plt.tight_layout()
+plt.show()
+
+# Plot feature importance
+feature_importance = rf.feature_importances_
+plt.figure(figsize=(6, 4))
+sns.barplot(x=feature_importance, y=["Weight(Kg)", "Height(Cm)"])
+plt.title("Feature Importance In Animal Classification")
+plt.xlabel("Importance Score")
+plt.ylabel("Feature")
+plt.show()
