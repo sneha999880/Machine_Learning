@@ -1,0 +1,86 @@
+#Handling the missing values in datasets
+
+import numpy as np
+import pandas as pd
+fee = pd.DataFrame({
+    'ID':[11,12,13,14,15,16,17,18,19,20],
+    'Pending':['5000','10000',np.nan,'5500','7600',np.nan,'15000','4500','2000',np.nan]})
+fee
+
+
+pd.isnull(fee['Pending'])
+
+print(fee.notnull())
+
+#Drop the columns missing values
+print(fee.drop(["Pending"],axis=1))
+
+#filling missing values with mean
+import numpy as np
+import pandas as pd
+G_dict={'G1':[10,20,30,40],
+        'G2':[25,np.nan,np.nan,29],
+        'G3':[15,14,17,11],
+        'G3':[21,22,23,24]}
+gfg=pd.DataFrame(G_dict)
+gfg
+
+import numpy as np
+import pandas as pd
+G_dict={'G1':[10,20,30,40],
+        'G2':[25,np.nan,np.nan,29],
+        'G3':[15,14,17,11],
+        'G4':[21,22,23,24]}
+gfg=pd.DataFrame(G_dict)
+mean_value=gfg['G2'].mean()
+gfg['G2'] = gfg['G2'].fillna(mean_value)
+print(gfg)
+
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.datasets import load_iris
+iris = load_iris()
+data = iris.data
+columns = iris.feature_names
+df = pd.DataFrame(data, columns = columns)
+print("Original Dataset:")
+print(df.head())
+
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.datasets import load_iris
+iris = load_iris()
+data = iris.data
+columns = iris.feature_names
+df = pd.DataFrame(data, columns = columns)
+print("Original Dataset:")
+print(df.head())
+scaler = MinMaxScaler()
+print(scaler)
+normalized_data = scaler.fit_transform(df)
+df_normalized = pd.DataFrame(normalized_data, columns = columns)
+print("\nNormalized Dataset:")
+print(df_normalized.head())
+
+import numpy as np
+data=[10,12,14,11,13,100,12,15,14,11]
+mean=np.mean(data)
+std_dev=np.std(data)
+threshold=2
+outliers=[x for x in data if(x-mean)/std_dev>threshold]
+print("outliers:",outliers,std_dev)
+#To drop outliers
+data=[10,12,14,11,13,100,12,15,14,11]
+mean=np.mean(data)
+std_dev=np.std(data)
+threshold=2
+filtered_data=[x for x in data if(x-mean)/std_dev<=threshold]
+print("Data without outliers",filtered_data,std_dev)
+data=[10,12,14,11,13,300,350,390,15,14,11]
+mean=np.mean(data)
+std_dev=np.std(mean)
+threshold=3
+outliers=[x for x in data if(x-mean)/std_dev>threshold]
+print("outliers:",outliers)
+filtered_data2=[x for x in data if(x-mean)/std_dev<=threshold]
+print("Data without outliers",filtered_data2,std_dev)
