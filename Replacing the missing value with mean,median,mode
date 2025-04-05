@@ -1,0 +1,35 @@
+import pandas as pd
+data=pd.read_csv('Item.csv')
+print(data)
+
+#Replacing missing values in "quantity"
+data['Quantity']=data['Quantity'].fillna(data['Quantity'].mean())
+data
+
+#Replacing missing values in "price" column
+data['Price']=data['Price'].fillna(data['Price'].median())
+data
+
+data['Bought']=data['Bought'].fillna(data['Bought'].std())
+data
+
+data['Forenoon']=data['Forenoon'].fillna(data['Forenoon'].min())
+data
+
+data['Afternoon']=data['Afternoon'].fillna(data['Afternoon'].max())
+data
+
+data[['Quantity','Price','Bought','Forenoon','Afternoon']].fillna(data[['Quantity','Price','Bought','Forenoon','Afternoon']].mean())
+data
+
+#replace
+data['Item'].replace({'milk':'Milk product'})
+data
+
+#Standardizing
+data['Item']=data['Item'].str.upper()
+data
+
+#Type conversion
+data['Bought']=data['Bought'].astype(int)
+data
