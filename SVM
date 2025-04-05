@@ -1,0 +1,9 @@
+from sklearn.feature_extraction.text import CountVectorizer
+
+emails=["Win a free lottery now",
+       "important meeting at 5 PM",
+       "Congratulations! you won a prize"]
+
+vectorizer=CountVectorizer()
+x=vectorizer.fit_transform(emails)
+print(x.toarray())
