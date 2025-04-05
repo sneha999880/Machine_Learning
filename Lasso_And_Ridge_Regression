@@ -1,0 +1,37 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression,Ridge,Lasso
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+#Generate Synthetic Data
+np.random.seed(42)
+size=np.random.randint(1000,4000,100)
+bedrooms=np.random.randint(1,5,100)
+age=np.random.randint(1,50,100)
+distance=np.random.randint(1,30,100)
+price=5000*size+20000*bedrooms-3000*age-1500*distance+np.random.randint(-50000,50000,100)
+#crate a DataFrame
+df=pd.DataFrame({'Size':size,'Bedrooms':bedrooms,'Age':age,'Distance':distance,'Price':price})
+#Features and Target variable
+X=df[['Size','Bedrooms','Age','Distance']]
+Y=df['Price']
+#Split data into training and test sets
+X_train,X_test,y_train,y_test=train_test_split(X,Y,test_size=0.2,random_state=42)
+#Apply linear Ridge, Lasso Regression
+#Standardizing data(import for ridge and lasso)
+scaler=StandardScaler()
+X_train_scaled=scaler.fit_transform(X_train)
+X_test_scaled=scaler.transform(X_test)
+#Linear Regression
+lr=LinearRegression()
+lr.fit(X_train_scaled,y_train)
+#Ride Regression(L2 Regularization)
+ridge=Ridge(alpha=10)
+ridge.fit(X_train_scaled,y_train)
+#Lasso Regression (L1 Regularization)
+lasso=Lasso(alpha=1000)
+lasso.fit(X_train_scaled,y_train)
+#Printing
+coef_df=pd.DataFrame({'Feature':X.columns,'Linear':lr.coef_,'Ride':ridge.coef_,'Lasso':lasso.coef_})
+print(coef_df)
